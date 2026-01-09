@@ -43,6 +43,8 @@ const DragAndDrop = ({ data: intialData }) => {
     const sourceData = dragItem.current;
     const destinationData = dragOverItem.current;
 
+    console.log(sourceData, destinationData);
+
     if (!sourceData || !destinationData) return null;
 
     setData((pre) => {
@@ -61,7 +63,7 @@ const DragAndDrop = ({ data: intialData }) => {
         //When the list is diffrent
         const sourceList = [...pre[sourceData.heading]];
         const destinationList = [...pre[destinationData.heading]];
-        console.log(sourceList, destinationList);
+
         const sourceIdx = sourceData.idx;
         const destinationIdx = destinationData.idx;
         const [removedData] = sourceList.splice(sourceIdx, 1);
@@ -85,6 +87,12 @@ const DragAndDrop = ({ data: intialData }) => {
             <div
               onDragOver={(e) => {
                 e.preventDefault();
+              }}
+              onDragEnter={(e) => {
+                if (data[heading].length === 0) {
+                  console.log("onDragEnter");
+                  handleDragEnter(e, 0, heading);
+                }
               }}
               onDrop={handleDrop}
               style={style?.box}
@@ -134,6 +142,7 @@ const style = {
     flexDirection: "column",
   },
   box: {
+    minHeight: "70px",
     width: "100%",
     paddingLeft: "10px",
     paddingRight: "10px",

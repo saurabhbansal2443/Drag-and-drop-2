@@ -45,8 +45,22 @@ const DragAndDrop = ({ data: intialData }) => {
 
     if (!sourceData || !destinationData) return null;
 
-    
-
+    setData((pre) => {
+      //When the list is same
+      if (sourceData.heading == destinationData.heading) {
+        const list = [...pre[sourceData.heading]];
+        const sourceIdx = sourceData.idx;
+        const destinationIdx = destinationData.idx;
+        const [removedItem] = list.splice(sourceIdx, 1);
+        list.splice(destinationIdx, 0, removedItem);
+        return {
+          ...pre,
+          [sourceData.heading]: list,
+        };
+      } else {
+        //When the list is diffrent
+      }
+    });
   };
   return (
     <div style={style?.root}>

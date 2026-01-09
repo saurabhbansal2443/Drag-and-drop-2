@@ -59,6 +59,18 @@ const DragAndDrop = ({ data: intialData }) => {
         };
       } else {
         //When the list is diffrent
+        const sourceList = [...pre[sourceData.heading]];
+        const destinationList = [...pre[destinationData.heading]];
+        console.log(sourceList, destinationList);
+        const sourceIdx = sourceData.idx;
+        const destinationIdx = destinationData.idx;
+        const [removedData] = sourceList.splice(sourceIdx, 1);
+        destinationList.splice(destinationIdx ?? 0, 0, removedData);
+        return {
+          ...pre,
+          [sourceData.heading]: sourceList,
+          [destinationData.heading]: destinationList,
+        };
       }
     });
   };

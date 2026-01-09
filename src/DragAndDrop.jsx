@@ -17,14 +17,22 @@ const DragAndDrop = ({ data: intialData }) => {
 
   console.log("mainHeadings", mainHeadings);
   return (
-    <div>
+    <div style={style?.root}>
       {mainHeadings.map((heading) => {
         return (
-          <div>
-            <p key={heading}>{heading}</p>
-            {data[heading].map((taskObj) => {
-              return <div key={taskObj.id}>{taskObj.title}</div>;
-            })}
+          <div style={style?.container}>
+            <p style={style?.heading} key={heading}>
+              {heading.replace("_", " ")}
+            </p>
+            <div style={style?.box}>
+              {data[heading].map((taskObj) => {
+                return (
+                  <div style={style?.taskContainer} key={taskObj.id}>
+                    {taskObj.title}
+                  </div>
+                );
+              })}
+            </div>
           </div>
         );
       })}
@@ -33,3 +41,42 @@ const DragAndDrop = ({ data: intialData }) => {
 };
 
 export default DragAndDrop;
+
+const style = {
+  root: {
+    display: "flex",
+    justifyContent: "space-around",
+    alignItems: "center",
+    flexDirection: "row",
+  },
+  container: {
+    width: "25%",
+    display: "flex",
+    justifyContent: "space-evenly",
+    alignItems: "center",
+    flexDirection: "column",
+  },
+  box: {
+    width: "100%",
+    paddingLeft: "10px",
+    paddingRight: "10px",
+    backgroundColor: "#F5FBE6",
+    borderRadius: 6,
+    border: "1px solid #215E61",
+  },
+  heading: {
+    fontSize: "1.2rem",
+    fontWeight: 700,
+  },
+  taskContainer: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 8,
+
+    padding: "15px",
+    margin: "10px",
+    backgroundColor: "#FE7F2D",
+    color: "white",
+  },
+};

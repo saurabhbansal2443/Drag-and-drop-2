@@ -38,6 +38,16 @@ const DragAndDrop = ({ data: intialData }) => {
       heading,
     };
   };
+
+  const handleDrop = () => {
+    const sourceData = dragItem.current;
+    const destinationData = dragOverItem.current;
+
+    if (!sourceData || !destinationData) return null;
+
+    
+
+  };
   return (
     <div style={style?.root}>
       {mainHeadings.map((heading) => {
@@ -46,7 +56,13 @@ const DragAndDrop = ({ data: intialData }) => {
             <p style={style?.heading} key={heading}>
               {heading.replace("_", " ")}
             </p>
-            <div style={style?.box}>
+            <div
+              onDragOver={(e) => {
+                e.preventDefault();
+              }}
+              onDrop={handleDrop}
+              style={style?.box}
+            >
               {data[heading].map((taskObj, idx) => {
                 return (
                   <div

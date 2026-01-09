@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { useState } from "react";
 
 const DragAndDrop = ({ data: intialData }) => {
@@ -15,7 +15,29 @@ const DragAndDrop = ({ data: intialData }) => {
   }, [data]);
   const mainHeadings = Object.keys(data); // ["Office_Task","Home_Task","Sunday_Task"]
 
-  console.log("mainHeadings", mainHeadings);
+  const dragItem = useRef(); // this will store all the information of item which is dragged
+  const dragOverItem = useRef(); // this will store all the information of the destination item
+
+  const handleDragStart = (e, idx, heading, taskObj) => {
+    let dragElement = e.target;
+    dragElement.style.opacity = 0.5;
+    dragItem.current = {
+      idx,
+      heading,
+      taskObj,
+    };
+  };
+  const handleDragEnd = (e) => {
+    let dragElement = e.target;
+    dragElement.style.opacity = 1;
+  };
+
+  const handleDragEnter = (e, idx, heading) => {
+    dragOverItem.current = {
+      idx,
+      heading,
+    };
+  };
   return (
     <div style={style?.root}>
       {mainHeadings.map((heading) => {
@@ -25,9 +47,22 @@ const DragAndDrop = ({ data: intialData }) => {
               {heading.replace("_", " ")}
             </p>
             <div style={style?.box}>
-              {data[heading].map((taskObj) => {
+              {data[heading].map((taskObj, idx) => {
                 return (
-                  <div style={style?.taskContainer} key={taskObj.id}>
+                  <div
+                    draggable
+                    onDragStart={(e) => {
+                      handleDragStart(e, idx, heading, taskObj);
+                    }}
+                    onDragEnter={(e) => {
+                      handleDragEnter(e, idx, heading);
+                    }}
+                    onDragEnd={(e) => {
+                      handleDragEnd(e);
+                    }}
+                    style={style?.taskContainer}
+                    key={taskObj.id}
+                  >
                     {taskObj.title}
                   </div>
                 );
